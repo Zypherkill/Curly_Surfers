@@ -15,7 +15,7 @@ window.addEventListener('load', () => {
     } else if(checkForGameOver() === 3) {
         console.log("Oavgjort");
     } else {
-        console.log("Spelet fortsätter");
+        console.log("Spelet fortsätter"); 
     }
 });
 
