@@ -111,18 +111,16 @@ function checkWinner(playerIn) {
 
     for(let combination of winnerCombinations) {
         const [a, b, c] = combination;
-        if (oGameData.gameField[a] === playerIn &&
-            oGameData.gameField[b] === playerIn &&
-            oGameData.gameField[c] === playerIn) {
+        if (oGameData.gameField[a] === playerIn && oGameData.gameField[b] === playerIn && oGameData.gameField[c] === playerIn) {
             return true;
         }
-    }
+}
     return false;
 }
 
 //Kontrollera om alla platser i oGameData.GameField är fyllda. Om sant returnera true, annars false.
 function checkForDraw() {
-    if (oGameData.gameField.every(box => box !== null && box !== '')) {
+    if (oGameData.gameField.every(box => box !== '')) {
         return true;
     } else {
         return false;
