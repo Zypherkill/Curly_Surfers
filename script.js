@@ -83,16 +83,18 @@ function initGlobalObject() {
  * Funktionen tar inte emot några värden.
  */
 function checkForGameOver() {
-    if (checkWinner(oGameData.playerOne)) {
+    if (checkWinner(oGameData.playerOne) === true) {
         return 1;
     }
-    if (checkWinner(oGameData.playerTwo)) {
+    else if (checkWinner(oGameData.playerTwo) === true) {
         return 2;
     }
-    if (checkForDraw()) {
+    else if (checkForDraw() === true) {
         return 3;
     }
-    return 0;
+    else {
+        return 0;
+    }
 }
 
 // Säg till om ni vill få pseudokod för denna funktion
