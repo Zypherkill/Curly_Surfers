@@ -117,7 +117,7 @@ function checkWinner(playerIn) {
             return true;
         }
 }
-    return false;
+    return false;       
 }
 
 //Kontrollera om alla platser i oGameData.GameField är fyllda. Om sant returnera true, annars false.
