@@ -82,14 +82,16 @@ function initGlobalObject() {
  * returnerar 3 om det är oavgjort.
  * Funktionen tar inte emot några värden.
  */
+
+prepGame()
 function checkForGameOver() {
-    if (checkWinner(oGameData.playerOne) === true) {
+    if (checkWinner(oGameData.playerOne)) {
         return 1;
     }
-    else if (checkWinner(oGameData.playerTwo) === true) {
+    else if (checkWinner(oGameData.playerTwo)) {
         return 2;
     }
-    else if (checkForDraw() === true) {
+    else if (checkForDraw()) {
         return 3;
     }
     else {
@@ -116,7 +118,7 @@ function checkWinner(playerIn) {
         if (oGameData.gameField[a] === playerIn && oGameData.gameField[b] === playerIn && oGameData.gameField[c] === playerIn) {
             return true;
         }
-}
+    }
     return false;       
 }
 
@@ -133,23 +135,98 @@ function checkForDraw() {
 // Nedanstående funktioner väntar vi med!
 
 function prepGame() {
-
+    let hideGameArea = document.querySelector('#gameArea');
+    hideGameArea.classList.add('d-none');
+    let newGame = document.querySelector("#newGame");
+    newGame.addEventListener('click', initiateGame);
 }
 
 function validateForm() {
-    
 }
 
 function initiateGame() {
+    initGlobalObject();
+    let hideForm = document.querySelector('#theForm');
+    hideForm.classList.add('d-none');
+    let gameArea = document.querySelector('#gameArea');
+    gameArea.classList.remove('d-none');
+    let removeText = document.querySelector('#errorMsg');
+    removeText.innerText = '';
+    oGameData.nickNamePlayerOne = document.querySelector('#nick1').value;
+    oGameData.nickNamePlayerTwo = document.querySelector('#nick2').value;
+    oGameData.colorPlayerOne = document.querySelector('#color1').value;
+    oGameData.colorPlayerTwo = document.querySelector("#color2").value;
+
+    let tdElement = document.querySelectorAll('td');
+    tdElement.forEach(removeText => {
+        removeText.innerText = '';
+        removeText.style.backgroundColor = '#ffffff';
+    });
+    let playerChar = 0;
+    let playerName = 0;
+    let playerColor = 0;
+
+    let random = Math.random();
+    console.log(random);
+    
+    if(random < 0.5) {
+        playerChar = oGameData.playerOne;
+        oGameData.currentPlayer = playerChar;
+        playerName = oGameData.nickNamePlayerOne;
+        playerColor = oGameData.colorPlayerOne;
+    } else {
+        playerChar = oGameData.playerTwo;
+        oGameData.currentPlayer = playerChar;
+        playerName = oGameData.nickNamePlayerTwo;
+        playerColor = oGameData.colorPlayerTwo;
+    }
+    let whoPlay = document.querySelector('h1');
+    whoPlay.innerText =`Aktuell spelare är ${playerName}`;
+
+    let makeMove = document.querySelector('#gameArea');
+    makeMove.addEventListener('click', executeMove);
+
 
 }
 
-function executeMove (event) {
+function executeMove(event) {
+    console.log('executeMove()');
+    console.log(event.target);
+
+    let cellBox = event.target.getAttribute('data-id');
+
+    // Om spelare klicka i boxen
+    if (event.target.tagName === 'TD' && oGameData.gameField[cellBox] === '') {
+        oGameData.gameField[cellBox] = oGameData.currentPlayer;
+        event.target.textContent = oGameData.currentPlayer;
+        // Ändra bakgrundsfärgen baserat på vilken spelare som spelar
+        if (oGameData.currentPlayer === oGameData.playerOne ) {
+            event.target.style.backgroundColor = oGameData.colorPlayerOne;
+            
+        } else {
+            event.target.style.backgroundColor = oGameData.colorPlayerTwo;
+
+        }
+    
+        // Byter spelare samt ändrar h1 till den aktuella spelare
+        if (oGameData.currentPlayer === oGameData.playerOne) {
+            oGameData.currentPlayer = oGameData.playerTwo;
+            document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
+        } else {
+            oGameData.currentPlayer = oGameData.playerOne;
+            document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
+        }
+    
+        const result = checkForGameOver();
+        if (result !== 0) {
+            gameOver(result);
+        }
+    }
+
 
 }
 
 function changePlayer() {
-
 }
 
 function timer() {
@@ -157,5 +234,23 @@ function timer() {
 }
 
 function gameOver(result) {
+    console.log('gameOver()');
 
+    const hideForm = document.querySelector('#theForm');
+    hideForm.classList.remove('d-none');
+    const hideGameArea = document.querySelector('#gameArea');
+    hideGameArea.classList.add('d-none');
+
+    let winnerName = "";
+    if(result === 1) {
+        document.querySelector('h1').textContent = `${oGameData.nickNamePlayerOne} vann! Spela igen?`;
+    } else if (result === 2) {
+        document.querySelector('h1').textContent = `${oGameData.nickNamePlayerTwo} vann! Spela igen?`;
+    } else if (result === 3) {
+        document.querySelector('h1').textContent = 'Oavgjort! Spela igen?';
+    } else {
+        console.log("Spelet fortsätter"); 
+    }
+
+    initGlobalObject();
 }
