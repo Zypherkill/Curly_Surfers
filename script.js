@@ -145,7 +145,6 @@ function validateForm() {
 }
 
 function initiateGame() {
-    initGlobalObject();
     let hideForm = document.querySelector('#theForm');
     hideForm.classList.add('d-none');
     let gameArea = document.querySelector('#gameArea');
@@ -190,9 +189,6 @@ function initiateGame() {
 }
 
 function executeMove(event) {
-    console.log('executeMove()');
-    console.log(event.target);
-
     let cellBox = event.target.getAttribute('data-id');
 
     // Om spelare klicka i boxen
