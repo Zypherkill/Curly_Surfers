@@ -163,7 +163,6 @@ function initiateGame() {
     });
     let playerChar = 0;
     let playerName = 0;
-    let playerColor = 0;
 
     let random = Math.random();
     console.log(random);
@@ -172,12 +171,10 @@ function initiateGame() {
         playerChar = oGameData.playerOne;
         oGameData.currentPlayer = playerChar;
         playerName = oGameData.nickNamePlayerOne;
-        playerColor = oGameData.colorPlayerOne;
     } else {
         playerChar = oGameData.playerTwo;
         oGameData.currentPlayer = playerChar;
         playerName = oGameData.nickNamePlayerTwo;
-        playerColor = oGameData.colorPlayerTwo;
     }
     let whoPlay = document.querySelector('h1');
     whoPlay.innerText =`Aktuell spelare är ${playerName}`;
@@ -189,28 +186,22 @@ function initiateGame() {
 }
 
 function executeMove(event) {
-    let cellBox = event.target.getAttribute('data-id');
+    const cellBox = event.target.getAttribute('data-id');
 
     // Om spelare klicka i boxen
     if (event.target.tagName === 'TD' && oGameData.gameField[cellBox] === '') {
         oGameData.gameField[cellBox] = oGameData.currentPlayer;
         event.target.textContent = oGameData.currentPlayer;
-        // Ändra bakgrundsfärgen baserat på vilken spelare som spelar
-        if (oGameData.currentPlayer === oGameData.playerOne ) {
-            event.target.style.backgroundColor = oGameData.colorPlayerOne;
-            
-        } else {
-            event.target.style.backgroundColor = oGameData.colorPlayerTwo;
-
-        }
     
-        // Byter spelare samt ändrar h1 till den aktuella spelare
+        // If-sats för nuvarande spelare och sätter de färgerna 
         if (oGameData.currentPlayer === oGameData.playerOne) {
             oGameData.currentPlayer = oGameData.playerTwo;
             document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
+            event.target.style.backgroundColor = oGameData.colorPlayerOne;
         } else {
             oGameData.currentPlayer = oGameData.playerOne;
             document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
+            event.target.style.backgroundColor = oGameData.colorPlayerTwo;
         }
     
         const result = checkForGameOver();
@@ -230,14 +221,11 @@ function timer() {
 }
 
 function gameOver(result) {
-    console.log('gameOver()');
-
     const hideForm = document.querySelector('#theForm');
     hideForm.classList.remove('d-none');
     const hideGameArea = document.querySelector('#gameArea');
     hideGameArea.classList.add('d-none');
 
-    let winnerName = "";
     if(result === 1) {
         document.querySelector('h1').textContent = `${oGameData.nickNamePlayerOne} vann! Spela igen?`;
     } else if (result === 2) {
