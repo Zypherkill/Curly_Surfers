@@ -138,11 +138,59 @@ function prepGame() {
     let hideGameArea = document.querySelector('#gameArea');
     hideGameArea.classList.add('d-none');
     let newGame = document.querySelector("#newGame");
-    newGame.addEventListener('click', initiateGame);
+    newGame.addEventListener('click', validateForm);
 }
 
 function validateForm() {
-}
+    const nick1Input = document.querySelector('#nick1');
+    const nick2Input = document.querySelector('#nick2');
+    const color1Input = document.querySelector('#color1');
+    const color2Input = document.querySelector('#color2');
+    let errors = [];
+
+        try {
+            if (!nick1Input.value) {
+                nick1Input.focus();
+                throw new Error("Användarnamn för spelare 1 får inte vara tomt.");
+            } else if (nick1Input.value.length < 3 || nick1Input.value.length > 10) {
+                nick1Input.focus();
+                throw new Error("Användarnamn för spelare 1 måste vara mellan 3 och 10 tecken.");
+            }
+
+            if (!nick2Input.value) {
+                nick2Input.focus();
+                throw new Error("Användarnamn för spelare 2 får inte vara tomt.");
+            } else if (nick2Input.value.length < 3 || nick2Input.value.length > 10) {
+                nick2Input.focus();
+                throw new Error("Användarnamn för spelare 2 måste vara mellan 3 och 10 tecken.");
+            }
+
+            if (!color1Input.value) {
+                color1Input.focus();
+                throw new Error("Färg för spelare 1 får inte vara tom.");
+            } else if (color1Input.value === '#000000' ||  color1Input.value === '#ffffff') {
+                color1Input.focus();
+                throw new Error("Färgen för spelare 1 får inte vara svart eller vit.");
+            }
+            if (!color2Input.value) {
+                color2Input.focus();
+                throw new Error("Färg för spelare 1 får inte vara tom.");
+            } else if (color2Input.value === '#000000' || color2Input.value === '#ffffff') {
+                color2Input.focus();
+                throw new Error("Färgen för spelare 1 får inte vara svart eller vit.");
+            }
+
+        } catch (error) {
+            errors.push(error.message);
+        }
+    
+        if (errors.length > 0) {
+            return errors;
+        }
+
+        initiateGame();
+    }
+
 
 function initiateGame() {
     let hideForm = document.querySelector('#theForm');
