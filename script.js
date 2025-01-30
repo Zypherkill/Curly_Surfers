@@ -169,14 +169,14 @@ function validateForm() {
                 color1Input.focus(); //Fokuserar fältet om färg fältet är tomt
                 throw new Error("Färg för spelare 1 får inte vara tom."); //Skapar error meddelande
             } else if (color1Input.value === '#000000' ||  color1Input.value === '#ffffff') {
-                color1Input.focus(); //Fokuserar fältet om färgen som valts är vitt eller svart
+                color1Input.focus(); //Fokuserar fältet om färgen som valts är vit eller svart
                 throw new Error("Färgen för spelare 1 får inte vara svart eller vit.");
             }
             if (!color2Input.value) {
                 color2Input.focus(); //Fokuserar fältet om färg fältet är tomt
                 throw new Error("Färg för spelare 2 får inte vara tom."); //Skapar error meddelande
             } else if (color2Input.value === '#000000' || color2Input.value === '#ffffff') {
-                color2Input.focus(); //Fokuserar fältet om färgen som valts är vitt eller svart
+                color2Input.focus(); //Fokuserar fältet om färgen som valts är vit eller svart
                 throw new Error("Färgen för spelare 2 får inte vara svart eller vit."); //Skapar error meddelande
             }
 
