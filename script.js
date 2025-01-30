@@ -174,10 +174,10 @@ function validateForm() {
             }
             if (!color2Input.value) {
                 color2Input.focus();
-                throw new Error("Färg för spelare 1 får inte vara tom.");
+                throw new Error("Färg för spelare 2 får inte vara tom.");
             } else if (color2Input.value === '#000000' || color2Input.value === '#ffffff') {
                 color2Input.focus();
-                throw new Error("Färgen för spelare 1 får inte vara svart eller vit.");
+                throw new Error("Färgen för spelare 2 får inte vara svart eller vit.");
             }
 
         } catch (error) {
