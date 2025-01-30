@@ -250,15 +250,15 @@ function executeMove(event) {
         if (result !== 0) {
             gameOver(result);
         } else {
-            clearInterval(oGameData.timerId);
-            changePlayer();
-            oGameData.seconds = 6;
-            timer();
+            clearInterval(oGameData.timerId);//Stänger av tiden
+            changePlayer(); //Byter spelare när någon har klickat
+            oGameData.seconds = 6; //6 sekunder då det är 1 sekund delay så spelarna har 5 sekunder på sig
+            timer(); //Startar timern
         }
     }
 }
 
-function changePlayer() {
+function changePlayer() { //Funktion för att byta spelare
     if (oGameData.currentPlayer === oGameData.playerOne) {
         oGameData.currentPlayer = oGameData.playerTwo;
         document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
@@ -270,21 +270,21 @@ function changePlayer() {
 
 function timer() {
     oGameData.timerId = setInterval(() => {
-        oGameData.seconds -= 1;
-        document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`;
+        oGameData.seconds -= 1; //Så timern räknar ner
+        document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`; //Skriver ut nuvarande tid på skärmen
 
         if (oGameData.seconds <= 0) {
             clearInterval(oGameData.timerId);
-            changePlayer();
+            changePlayer(); //Byter spelare när tiden gått ut
             oGameData.seconds = 6;
-            timer();
+            timer(); //Startar om timern
         }
     }, 1000);
 }
 
 function gameOver(result) {
-    clearInterval(oGameData.timerId);
-    document.querySelector('#errorMsg').textContent = '';
+    clearInterval(oGameData.timerId); //Stänger av tiden
+    document.querySelector('#errorMsg').textContent = ''; //Tömmer p taggen när spelet är över
     const hideForm = document.querySelector('#theForm');
     hideForm.classList.remove('d-none');
     const hideGameArea = document.querySelector('#gameArea');
