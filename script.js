@@ -228,7 +228,6 @@ function initiateGame() {
     let whoPlay = document.querySelector('h1');
     whoPlay.innerText =`Aktuell spelare är ${playerName}`;
 
-    timer();
 
     let makeMove = document.querySelector('#gameArea');
     makeMove.addEventListener('click', executeMove);
@@ -237,19 +236,13 @@ function initiateGame() {
 function executeMove(event) {
     const cellBox = event.target.getAttribute('data-id');
 
-    // Om spelare klicka i boxen
     if (event.target.tagName === 'TD' && oGameData.gameField[cellBox] === '') {
         oGameData.gameField[cellBox] = oGameData.currentPlayer;
         event.target.textContent = oGameData.currentPlayer;
-    
-        // If-sats för nuvarande spelare och sätter de färgerna 
+
         if (oGameData.currentPlayer === oGameData.playerOne) {
-            oGameData.currentPlayer = oGameData.playerTwo;
-            document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
             event.target.style.backgroundColor = oGameData.colorPlayerOne;
         } else {
-            oGameData.currentPlayer = oGameData.playerOne;
-            document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
             event.target.style.backgroundColor = oGameData.colorPlayerTwo;
         }
 
@@ -258,32 +251,40 @@ function executeMove(event) {
             gameOver(result);
         } else {
             clearInterval(oGameData.timerId);
-            oGameData.seconds = 5;
+            changePlayer();
+            oGameData.seconds = 6;
             timer();
         }
     }
 }
 
 function changePlayer() {
+    if (oGameData.currentPlayer === oGameData.playerOne) {
+        oGameData.currentPlayer = oGameData.playerTwo;
+        document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
+    } else {
+        oGameData.currentPlayer = oGameData.playerOne;
+        document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
+    }
 }
 
 function timer() {
     oGameData.timerId = setInterval(() => {
         oGameData.seconds -= 1;
+        document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`;
 
         if (oGameData.seconds <= 0) {
             clearInterval(oGameData.timerId);
-            oGameData.timerEnabled = false;
-            document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`;
-
-            oGameData.seconds = 5;
-            document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`;
+            changePlayer();
+            oGameData.seconds = 6;
             timer();
         }
     }, 1000);
 }
 
 function gameOver(result) {
+    clearInterval(oGameData.timerId);
+    document.querySelector('#errorMsg').textContent = '';
     const hideForm = document.querySelector('#theForm');
     hideForm.classList.remove('d-none');
     const hideGameArea = document.querySelector('#gameArea');
