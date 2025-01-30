@@ -150,43 +150,43 @@ function validateForm() {
 
         try {
             if (!nick1Input.value) {
-                nick1Input.focus();
+                nick1Input.focus();//Fokuserar fältet om input-fältet är tomt
                 throw new Error("Användarnamn för spelare 1 får inte vara tomt."); 
             } else if (nick1Input.value.length < 3 || nick1Input.value.length > 10) {
-                nick1Input.focus();
-                throw new Error("Användarnamn för spelare 1 måste vara mellan 3 och 10 tecken.");
+                nick1Input.focus(); //Fokuserar fältet om användaren har angivit för få eller för många tecken i sitt nick
+                throw new Error("Användarnamn för spelare 1 måste vara mellan 3 och 10 tecken."); //Skapar error meddelande
             }
 
             if (!nick2Input.value) {
-                nick2Input.focus();
-                throw new Error("Användarnamn för spelare 2 får inte vara tomt.");
+                nick2Input.focus(); //Fokuserar fältet om input-fältet är tomt
+                throw new Error("Användarnamn för spelare 2 får inte vara tomt."); //Skapar error meddelande
             } else if (nick2Input.value.length < 3 || nick2Input.value.length > 10) {
-                nick2Input.focus();
-                throw new Error("Användarnamn för spelare 2 måste vara mellan 3 och 10 tecken.");
+                nick2Input.focus(); //Fokuserar fältet om användaren har angivit för få eller för många tecken i sitt nick
+                throw new Error("Användarnamn för spelare 2 måste vara mellan 3 och 10 tecken."); //Skapar error meddelande
             }
 
             if (!color1Input.value) {
-                color1Input.focus();
-                throw new Error("Färg för spelare 1 får inte vara tom.");
+                color1Input.focus(); //Fokuserar fältet om färg fältet är tomt
+                throw new Error("Färg för spelare 1 får inte vara tom."); //Skapar error meddelande
             } else if (color1Input.value === '#000000' ||  color1Input.value === '#ffffff') {
-                color1Input.focus();
+                color1Input.focus(); //Fokuserar fältet om färgen som valts är vitt eller svart
                 throw new Error("Färgen för spelare 1 får inte vara svart eller vit.");
             }
             if (!color2Input.value) {
-                color2Input.focus();
-                throw new Error("Färg för spelare 2 får inte vara tom.");
+                color2Input.focus(); //Fokuserar fältet om färg fältet är tomt
+                throw new Error("Färg för spelare 2 får inte vara tom."); //Skapar error meddelande
             } else if (color2Input.value === '#000000' || color2Input.value === '#ffffff') {
-                color2Input.focus();
-                throw new Error("Färgen för spelare 2 får inte vara svart eller vit.");
+                color2Input.focus(); //Fokuserar fältet om färgen som valts är vitt eller svart
+                throw new Error("Färgen för spelare 2 får inte vara svart eller vit."); //Skapar error meddelande
             }
 
         } catch (error) {
-            errors.push(error.message);
-            document.querySelector('#errorMsg').textContent = (error.message);
+            errors.push(error.message); //Slänger in errormedellande i arrayen errors
+            document.querySelector('#errorMsg').textContent = (error.message); //Byter ut texten i #errorMsg för att skriva ut error meddelande
         }
     
-        if (errors.length > 0) {
-            return errors;
+        if (errors.length > 0) { //Kollar om errors finns i arrayen 
+            return errors; //Returnerar errors från funktionen
         }
 
         initiateGame();
