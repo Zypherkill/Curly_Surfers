@@ -151,7 +151,7 @@ function validateForm() {
         try {
             if (!nick1Input.value) {
                 nick1Input.focus();
-                throw new Error("Användarnamn för spelare 1 får inte vara tomt.");
+                throw new Error("Användarnamn för spelare 1 får inte vara tomt."); 
             } else if (nick1Input.value.length < 3 || nick1Input.value.length > 10) {
                 nick1Input.focus();
                 throw new Error("Användarnamn för spelare 1 måste vara mellan 3 och 10 tecken.");
@@ -182,6 +182,7 @@ function validateForm() {
 
         } catch (error) {
             errors.push(error.message);
+            document.querySelector('#errorMsg').textContent = (error.message);
         }
     
         if (errors.length > 0) {
@@ -227,10 +228,10 @@ function initiateGame() {
     let whoPlay = document.querySelector('h1');
     whoPlay.innerText =`Aktuell spelare är ${playerName}`;
 
+    timer();
+
     let makeMove = document.querySelector('#gameArea');
     makeMove.addEventListener('click', executeMove);
-
-
 }
 
 function executeMove(event) {
@@ -251,21 +252,35 @@ function executeMove(event) {
             document.querySelector('h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
             event.target.style.backgroundColor = oGameData.colorPlayerTwo;
         }
-    
+
         const result = checkForGameOver();
         if (result !== 0) {
             gameOver(result);
+        } else {
+            clearInterval(oGameData.timerId);
+            oGameData.seconds = 5;
+            timer();
         }
     }
-
-
 }
 
 function changePlayer() {
 }
 
 function timer() {
+    oGameData.timerId = setInterval(() => {
+        oGameData.seconds -= 1;
 
+        if (oGameData.seconds <= 0) {
+            clearInterval(oGameData.timerId);
+            oGameData.timerEnabled = false;
+            document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`;
+
+            oGameData.seconds = 5;
+            document.querySelector("#errorMsg").textContent = `Tid kvar: ${oGameData.seconds} s`;
+            timer();
+        }
+    }, 1000);
 }
 
 function gameOver(result) {
